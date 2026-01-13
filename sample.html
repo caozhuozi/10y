@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Personal Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #FAF9F6;
+            --text-main: #1A1A1A;
+            --text-muted: #9CA3AF;
+            --island-bg: rgba(255, 255, 255, 0.8);
+            --accent-green: #39D353;
+            --grid-empty: #EBEDF0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        /* --- 灵动岛导航 --- */
+        .dynamic-island {
+            position: fixed;
+            top: 20px;
+            background: var(--island-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 30px;
+            padding: 8px 20px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .tab {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            padding: 6px 12px;
+        }
+
+        .tab.active {
+            color: var(--text-main);
+            background: rgba(0,0,0,0.05);
+            border-radius: 20px;
+        }
+
+        /* --- 容器逻辑 --- */
+        .content-section {
+            display: none;
+            width: 90%;
+            max-width: 800px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 睡眠热力图样式 --- */
+        .heatmap-container {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #EEE;
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(20, 1fr); /* 模拟展示20列 */
+            grid-template-rows: repeat(7, 1fr);
+            gap: 4px;
+            margin-top: 15px;
+        }
+
+        .cell {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: var(--grid-empty);
+        }
+
+        /* 睡眠时长色阶 */
+        .level-1 { background-color: #C6E48B; } /* 4-6h */
+        .level-2 { background-color: #7BC96F; } /* 6-7h */
+        .level-3 { background-color: #239A3B; } /* 7-8h */
+        .level-4 { background-color: #196127; } /* >8h */
+
+        /* --- 补充剂清单样式 --- */
+        .supps-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .supps-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px dashed #D1D5DB; /* 核心虚线设计 */
+        }
+
+        .supps-item:last-child
