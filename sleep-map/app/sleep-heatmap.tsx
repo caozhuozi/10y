@@ -186,7 +186,7 @@ export function SleepHeatmap({
             />
           );
         })}
-        {Array.from({ length: 10 }, (_, index) => (
+        {Array.from({ length: 30 }, (_, index) => (
           <i
             className={[
               "mosaic-cell",
