@@ -228,20 +228,18 @@ button {
 
 @media (max-width: 760px) {
   :root {
-    --mosaic-columns: 31;
-    --mosaic-rows: 59;
-    --tile-size: min(
-      calc((100vw - 16px - 30px) / 31),
-      calc((100svh - 174px - 58px) / 59)
-    );
+    --mosaic-columns: 30;
+    --mosaic-rows: 61;
+    --tile-size: calc((100vw - 16px - 29px) / 30);
   }
 
   .site-shell {
+    overflow-y: auto;
     padding: 52px 8px 72px;
   }
 
   .site-footer {
-    width: calc(31 * var(--tile-size) + 30px);
+    width: calc(30 * var(--tile-size) + 29px);
   }
 
   .site-slogan {

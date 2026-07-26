@@ -133,7 +133,7 @@ export function SleepHeatmap({
                     <i className="detail-separator" aria-hidden="true">
                       ·
                     </i>
-                    <span>nap {formatCompactMinutes(active.napMinutes)}</span>
+                    <span>+ {formatCompactMinutes(active.napMinutes)} nap</span>
                   </>
                 )}
               </span>
@@ -191,7 +191,7 @@ export function SleepHeatmap({
             className={[
               "mosaic-cell",
               "mosaic-padding",
-              index > 2 ? "mobile-hidden-padding" : "",
+              index > 3 ? "mobile-hidden-padding" : "",
             ]
               .filter(Boolean)
               .join(" ")}
