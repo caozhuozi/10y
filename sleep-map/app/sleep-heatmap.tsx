@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type KeyboardEvent } from "react";
 
 type SleepDay = {
   date: string;
@@ -73,6 +73,9 @@ export function SleepHeatmap({
 }) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [previewDate, setPreviewDate] = useState<string | null>(null);
+  const [focusDate, setFocusDate] = useState(
+    () => days.at(-1)?.date ?? `${startYear}-01-01`,
+  );
   const activeDate = previewDate ?? selectedDate;
 
   const mosaic = useMemo(() => {
@@ -124,6 +127,46 @@ export function SleepHeatmap({
       return Math.min(100, (recordedDays / daysInYear) * 100);
     },
   );
+
+  function handleMosaicKeyDown(
+    event: KeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setSelectedDate(null);
+      setPreviewDate(null);
+      return;
+    }
+
+    const columns = window.matchMedia("(max-width: 760px)").matches ? 29 : 47;
+    const column = index % columns;
+    let nextIndex = index;
+
+    if (event.key === "ArrowLeft" && column > 0) nextIndex -= 1;
+    if (
+      event.key === "ArrowRight" &&
+      column < columns - 1 &&
+      index + 1 < mosaic.length
+    ) {
+      nextIndex += 1;
+    }
+    if (event.key === "ArrowUp" && index >= columns) nextIndex -= columns;
+    if (event.key === "ArrowDown" && index + columns < mosaic.length) {
+      nextIndex += columns;
+    }
+
+    if (!event.key.startsWith("Arrow")) return;
+
+    event.preventDefault();
+    if (nextIndex === index) return;
+
+    const buttons =
+      event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>(
+        "button.mosaic-cell",
+      );
+    buttons?.item(nextIndex).focus();
+  }
 
   return (
     <div className="mosaic-card">
@@ -197,7 +240,7 @@ export function SleepHeatmap({
         className="sleep-mosaic"
         aria-label={`${startYear} to ${endYear} sleep mosaic`}
       >
-        {mosaic.map((day) => {
+        {mosaic.map((day, index) => {
           const level = durationLevel(day.sleep?.totalMinutes);
           const label = day.sleep
             ? `${readableDate(day.date)}: ${formatMinutes(day.sleep.totalMinutes)} total sleep`
@@ -217,6 +260,7 @@ export function SleepHeatmap({
                 .join(" ")}
               aria-label={label}
               aria-pressed={selectedDate === day.date}
+              tabIndex={focusDate === day.date ? 0 : -1}
               onBlur={() => setPreviewDate(null)}
               onClick={() => {
                 setSelectedDate((current) =>
@@ -224,7 +268,11 @@ export function SleepHeatmap({
                 );
                 setPreviewDate(null);
               }}
-              onFocus={() => setPreviewDate(day.date)}
+              onFocus={() => {
+                setFocusDate(day.date);
+                setPreviewDate(day.date);
+              }}
+              onKeyDown={(event) => handleMosaicKeyDown(event, index)}
               onMouseEnter={() => setPreviewDate(day.date)}
               onMouseLeave={() => setPreviewDate(null)}
             />
