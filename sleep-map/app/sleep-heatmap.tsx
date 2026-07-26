@@ -98,13 +98,49 @@ export function SleepHeatmap({
   const averageMinutes = Math.round(
     days.reduce((total, day) => total + day.totalMinutes, 0) / days.length,
   );
+  const totalPlanDays =
+    Math.round(
+      (Date.UTC(endYear + 1, 0, 1) - Date.UTC(startYear, 0, 1)) / 86_400_000,
+    );
+  const latestYear = days.at(-1)
+    ? Number(days.at(-1)!.date.slice(0, 4))
+    : startYear;
+  const chapterYear = Math.min(
+    endYear - startYear + 1,
+    Math.max(1, latestYear - startYear + 1),
+  );
+  const yearlyProgress = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, index) => {
+      const year = startYear + index;
+      const daysInYear = Math.round(
+        (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86_400_000,
+      );
+      const recordedDays = days.filter((day) =>
+        day.date.startsWith(`${year}-`),
+      ).length;
+      return Math.min(100, (recordedDays / daysInYear) * 100);
+    },
+  );
 
   return (
     <div className="mosaic-card">
       <div className="mosaic-meta">
-        <p className="site-period">
-          {startYear}–{endYear}
-        </p>
+        <div
+          className="site-period"
+          aria-label={`${startYear} to ${endYear}. Year ${chapterYear}, day ${days.length} of ${totalPlanDays}.`}
+        >
+          <span className="period-years">
+            {startYear}–{endYear}
+          </span>
+          <span className="period-progress" aria-hidden="true">
+            {yearlyProgress.map((progress, index) => (
+              <span className="period-segment" key={startYear + index}>
+                <span style={{ width: `${progress}%` }} />
+              </span>
+            ))}
+          </span>
+        </div>
         <div
           className={`site-stats ${active ? "is-detail" : ""}`}
           aria-live="polite"

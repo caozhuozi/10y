@@ -70,7 +70,35 @@ button {
 }
 
 .site-period {
+  position: relative;
   margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.period-progress {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  width: 60px;
+  height: 3px;
+  gap: 1px;
+}
+
+.period-segment {
+  flex: 1;
+  overflow: hidden;
+  background: #eceff1;
+}
+
+.period-segment > span {
+  display: block;
+  height: 100%;
+  background: var(--level-4);
 }
 
 .site-stats {
