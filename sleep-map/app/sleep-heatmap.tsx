@@ -71,7 +71,9 @@ export function SleepHeatmap({
   endYear: number;
   days: SleepDay[];
 }) {
-  const [activeDate, setActiveDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [previewDate, setPreviewDate] = useState<string | null>(null);
+  const activeDate = previewDate ?? selectedDate;
 
   const mosaic = useMemo(() => {
     const byDate = new Map(days.map((day) => [day.date, day]));
@@ -214,11 +216,17 @@ export function SleepHeatmap({
                 .filter(Boolean)
                 .join(" ")}
               aria-label={label}
-              onBlur={() => setActiveDate(null)}
-              onClick={() => setActiveDate(day.date)}
-              onFocus={() => setActiveDate(day.date)}
-              onMouseEnter={() => setActiveDate(day.date)}
-              onMouseLeave={() => setActiveDate(null)}
+              aria-pressed={selectedDate === day.date}
+              onBlur={() => setPreviewDate(null)}
+              onClick={() => {
+                setSelectedDate((current) =>
+                  current === day.date ? null : day.date,
+                );
+                setPreviewDate(null);
+              }}
+              onFocus={() => setPreviewDate(day.date)}
+              onMouseEnter={() => setPreviewDate(day.date)}
+              onMouseLeave={() => setPreviewDate(null)}
             />
           );
         })}
