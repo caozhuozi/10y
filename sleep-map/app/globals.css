@@ -85,7 +85,7 @@ button {
   left: 0;
   display: flex;
   width: 60px;
-  height: 3px;
+  height: 2px;
   gap: 1px;
 }
 
@@ -99,6 +99,18 @@ button {
   display: block;
   height: 100%;
   background: var(--level-4);
+  transform-origin: left;
+  animation: progress-reveal 900ms linear both;
+}
+
+@keyframes progress-reveal {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .site-stats {
@@ -318,5 +330,9 @@ button {
 @media (prefers-reduced-motion: reduce) {
   .mosaic-cell {
     transition: none;
+  }
+
+  .period-segment > span {
+    animation: none;
   }
 }
