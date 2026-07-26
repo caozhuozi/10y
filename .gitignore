@@ -1,0 +1,17 @@
+# OAuth credentials and local environment
+google-health-token.json
+.env
+.env.*
+!.env.example
+
+# Private health exports and legacy credentials
+/data/
+fitbit-credentials.md
+fitbit-data-export.md
+fitbit-sleep-*.json
+
+# Build artifacts and local tooling
+sleep-map-site.tar.gz
+.DS_Store
+__pycache__/
+*.py[cod]

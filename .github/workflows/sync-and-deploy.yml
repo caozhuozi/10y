@@ -1,0 +1,94 @@
+name: Sync sleep data and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # 19:17 Asia/Shanghai. Scheduled workflows use UTC.
+    - cron: "17 11 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: google-health-cli/go.mod
+          cache-dependency-path: google-health-cli/go.sum
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: sleep-map/package-lock.json
+
+      - name: Install website dependencies
+        working-directory: sleep-map
+        run: npm ci
+
+      - name: Restore Google OAuth token
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          GOOGLE_HEALTH_TOKEN_JSON: ${{ secrets.GOOGLE_HEALTH_TOKEN_JSON }}
+        run: |
+          test -n "$GOOGLE_HEALTH_TOKEN_JSON"
+          umask 077
+          printf '%s' "$GOOGLE_HEALTH_TOKEN_JSON" > google-health-token.json
+
+      - name: Sync Google Health sleep data
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          GOOGLE_HEALTH_CLIENT_ID: ${{ secrets.GOOGLE_HEALTH_CLIENT_ID }}
+          GOOGLE_HEALTH_CLIENT_SECRET: ${{ secrets.GOOGLE_HEALTH_CLIENT_SECRET }}
+          SKIP_SITE_BUILD: "1"
+        run: ./scripts/daily-sync.sh
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Configure Pages base path
+        shell: bash
+        run: |
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          if [[ "$repo_name" == "${GITHUB_REPOSITORY_OWNER}.github.io" ]]; then
+            base_path=""
+          else
+            base_path="/${repo_name}"
+          fi
+          echo "PAGES_BASE_PATH=${base_path}" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SITE_URL=https://${GITHUB_REPOSITORY_OWNER}.github.io${base_path}" >> "$GITHUB_ENV"
+
+      - name: Build static website
+        working-directory: sleep-map
+        run: npm run build:pages
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: sleep-map/out
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
