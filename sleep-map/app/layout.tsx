@@ -5,21 +5,34 @@ const basePath = process.env.PAGES_BASE_PATH ?? "";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const socialImage = new URL(`${basePath}/og.png`, siteUrl).toString();
+const description =
+  "A personal ten-year sleep heatmap: one day, one tile, tracing nights already lived against the nights still ahead.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Sleep — Xudong Wang",
-  description: "Five years of sleep, one tile per day.",
+  title: "sleep is all you need — a ten-year sleep heatmap",
+  description,
+  keywords: [
+    "sleep heatmap",
+    "sleep visualization",
+    "personal sleep data",
+    "sleep tracking",
+    "sleep diary",
+    "quantified self",
+    "data art",
+    "Fitbit sleep",
+    "ten-year sleep project",
+  ],
   openGraph: {
     title: "Sleep is all you need",
-    description: "Five years of sleep, one tile per day.",
+    description,
     images: [socialImage],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Sleep is all you need",
-    description: "Five years of sleep, one tile per day.",
+    description,
     images: [socialImage],
   },
 };
