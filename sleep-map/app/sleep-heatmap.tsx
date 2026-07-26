@@ -186,12 +186,12 @@ export function SleepHeatmap({
             />
           );
         })}
-        {Array.from({ length: 30 }, (_, index) => (
+        {Array.from({ length: 7 }, (_, index) => (
           <i
             className={[
               "mosaic-cell",
               "mosaic-padding",
-              index > 6 ? "mobile-only-padding" : "",
+              index > 2 ? "mobile-hidden-padding" : "",
             ]
               .filter(Boolean)
               .join(" ")}

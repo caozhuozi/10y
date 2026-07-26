@@ -228,11 +228,11 @@ button {
 
 @media (max-width: 760px) {
   :root {
-    --mosaic-columns: 32;
-    --mosaic-rows: 58;
+    --mosaic-columns: 31;
+    --mosaic-rows: 59;
     --tile-size: min(
-      calc((100vw - 16px - 31px) / 32),
-      calc((100svh - 174px - 57px) / 58)
+      calc((100vw - 16px - 30px) / 31),
+      calc((100svh - 174px - 58px) / 59)
     );
   }
 
@@ -241,7 +241,7 @@ button {
   }
 
   .site-footer {
-    width: calc(32 * var(--tile-size) + 31px);
+    width: calc(31 * var(--tile-size) + 30px);
   }
 
   .site-slogan {
@@ -275,8 +275,8 @@ button {
     display: block;
   }
 
-  .mosaic-padding.mobile-only-padding {
-    display: block;
+  .mosaic-padding.mobile-hidden-padding {
+    display: none;
   }
 
   .mosaic-cell:hover {
