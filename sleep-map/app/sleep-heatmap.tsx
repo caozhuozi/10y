@@ -191,7 +191,7 @@ export function SleepHeatmap({
             className={[
               "mosaic-cell",
               "mosaic-padding",
-              index > 3 ? "mobile-hidden-padding" : "",
+              index > 0 ? "mobile-hidden-padding" : "",
             ]
               .filter(Boolean)
               .join(" ")}
