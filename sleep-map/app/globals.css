@@ -13,6 +13,7 @@
   --mosaic-rows: 39;
   --mosaic-gap: 1px;
   --tile-size: min(
+    16px,
     calc((100vw - 48px - 46px) / 47),
     calc((100svh - 184px - 38px) / 39)
   );
