@@ -42,7 +42,6 @@ jobs:
         run: npm ci
 
       - name: Restore Google OAuth token
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         env:
           GOOGLE_HEALTH_TOKEN_JSON: ${{ secrets.GOOGLE_HEALTH_TOKEN_JSON }}
         run: |
@@ -51,7 +50,6 @@ jobs:
           printf '%s' "$GOOGLE_HEALTH_TOKEN_JSON" > google-health-token.json
 
       - name: Sync Google Health sleep data
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         env:
           GOOGLE_HEALTH_CLIENT_ID: ${{ secrets.GOOGLE_HEALTH_CLIENT_ID }}
           GOOGLE_HEALTH_CLIENT_SECRET: ${{ secrets.GOOGLE_HEALTH_CLIENT_SECRET }}
