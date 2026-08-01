@@ -403,11 +403,52 @@ button {
   max-width: 510px;
 }
 
+.methodology-flow {
+  margin: 0 0 30px;
+  color: #aeb3bb;
+  font-size: 10px;
+  letter-spacing: 0.025em;
+  line-height: 1.5;
+}
+
 .methodology-copy p {
   margin: 0 0 22px;
   color: #9298a1;
   font-size: 12px;
   line-height: 1.75;
+}
+
+.methodology-colors {
+  margin-top: 32px;
+}
+
+.color-scale-label {
+  margin: 0 0 12px;
+  color: #aeb3bb;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.color-scale {
+  display: grid;
+  grid-template-columns: repeat(5, 38px);
+  gap: 8px;
+}
+
+.color-scale span {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  color: #aeb3bb;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.color-scale i {
+  display: block;
+  width: 9px;
+  height: 9px;
 }
 
 @media (max-width: 600px) {

@@ -198,23 +198,18 @@ export function SleepHeatmap({
                   className={`status-dot level-${durationLevel(active.totalMinutes)}`}
                   aria-hidden="true"
                 />
-                <strong>{formatMinutes(active.totalMinutes)}</strong>
+                <strong>main {formatMinutes(active.mainMinutes)}</strong>
                 {active.bedtime && active.wakeTime && (
-                  <>
-                    <i className="detail-separator" aria-hidden="true">
-                      ·
-                    </i>
-                    <span>
-                      {active.bedtime}–{active.wakeTime}
-                    </span>
-                  </>
+                  <span>
+                    ({active.bedtime}–{active.wakeTime})
+                  </span>
                 )}
                 {active.hasNap && (
                   <>
                     <i className="detail-separator" aria-hidden="true">
                       ·
                     </i>
-                    <span>+ {formatCompactMinutes(active.napMinutes)} nap</span>
+                    <span>nap {formatCompactMinutes(active.napMinutes)}</span>
                   </>
                 )}
               </span>
