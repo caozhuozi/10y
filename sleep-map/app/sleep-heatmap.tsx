@@ -239,6 +239,12 @@ export function SleepHeatmap({
       <div
         className="sleep-mosaic"
         aria-label={`${startYear} to ${endYear} sleep mosaic`}
+        onMouseLeave={() => {
+          setPreviewDate(null);
+          if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+            setSelectedDate(null);
+          }
+        }}
       >
         {mosaic.map((day, index) => {
           const level = durationLevel(day.sleep?.totalMinutes);

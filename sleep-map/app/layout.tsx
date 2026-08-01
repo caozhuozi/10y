@@ -4,12 +4,21 @@ import "./globals.css";
 const basePath = process.env.PAGES_BASE_PATH ?? "";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const canonicalUrl = `${siteUrl.replace(/\/$/, "")}/`;
 const socialImage = new URL(`${basePath}/og.png`, siteUrl).toString();
+const favicon = new URL(`${basePath}/favicon.svg`, siteUrl).toString();
 const description =
   "A personal ten-year sleep heatmap: one day, one tile, tracing nights already lived against the nights still ahead.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: canonicalUrl,
+  },
+  icons: {
+    icon: [{ url: favicon, type: "image/svg+xml" }],
+    shortcut: favicon,
+  },
   title: "sleep is all you need — a ten-year sleep heatmap",
   description,
   keywords: [

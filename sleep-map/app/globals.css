@@ -170,6 +170,16 @@ button {
   margin: 4px 0 0;
 }
 
+.site-description {
+  margin: 5px 0 0;
+  color: #c5c9d0;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  line-height: 1.2;
+  text-align: center;
+}
+
 .mosaic-card {
   width: max-content;
   max-width: 100%;
@@ -286,6 +296,11 @@ button {
   .site-slogan {
     margin-top: 4px;
     font-size: 10px;
+  }
+
+  .site-description {
+    margin-top: 5px;
+    font-size: 8px;
   }
 
   .site-period {
