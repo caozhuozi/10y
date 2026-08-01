@@ -167,17 +167,29 @@ button {
 }
 
 .site-slogan {
-  margin: 4px 0 0;
+  margin: 0 0 6px;
 }
 
-.site-description {
+.method-note {
+  display: block;
   margin: 5px 0 0;
   color: #c5c9d0;
   font-size: 8px;
   font-weight: 400;
   letter-spacing: 0.025em;
   line-height: 1.2;
-  text-align: center;
+  text-align: right;
+  text-decoration-color: #d8dbe0;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 120ms ease;
+}
+
+.method-note:hover,
+.method-note:focus-visible {
+  color: #858b95;
+  text-decoration-color: #aeb3bb;
 }
 
 .mosaic-card {
@@ -268,13 +280,12 @@ button {
   text-align: center;
 }
 
-.site-footer::before {
+.footer-divider {
   display: block;
   width: 100%;
   height: 1px;
   margin: 0 auto 14px;
   background: #eceff1;
-  content: "";
 }
 
 @media (max-width: 760px) {
@@ -294,11 +305,10 @@ button {
   }
 
   .site-slogan {
-    margin-top: 4px;
     font-size: 10px;
   }
 
-  .site-description {
+  .method-note {
     margin-top: 5px;
     font-size: 8px;
   }
@@ -344,11 +354,68 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mosaic-cell {
+  .mosaic-cell,
+  .method-note {
     transition: none;
   }
 
   .period-segment > span {
     animation: none;
+  }
+}
+
+.methodology-shell {
+  min-height: 100svh;
+  padding: 72px 24px 64px;
+}
+
+.methodology-page {
+  width: min(100%, 620px);
+  margin: 0 auto;
+}
+
+.methodology-back {
+  color: #aeb3bb;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.methodology-back:hover,
+.methodology-back:focus-visible {
+  color: #627fcb;
+}
+
+.methodology-header {
+  margin: 86px 0 16px;
+}
+
+.methodology-title {
+  margin: 0;
+  color: #7f8792;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.methodology-copy {
+  max-width: 510px;
+}
+
+.methodology-copy p {
+  margin: 0 0 22px;
+  color: #9298a1;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+@media (max-width: 600px) {
+  .methodology-shell {
+    padding: 42px 20px 48px;
+  }
+
+  .methodology-header {
+    margin: 64px 0 16px;
   }
 }
